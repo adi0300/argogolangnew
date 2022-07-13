@@ -10,7 +10,7 @@ spec:
     path: argo
   destination:
     server: https://kubernetes.default.svc
-    namespace: adiciatlosi
+    namespace: argocd
 
   syncPolicy:
     syncOptions:

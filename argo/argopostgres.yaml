@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: postgres-adiciatlosi
+  namespace: adiciatlosi
+spec:
+  project: default
+  source:
+    repoURL:  https://github.com/adi0300/argogolang.git
+    targetRevision: main
+    path: postgres
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: adiciatlosi
+
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+
+    automated:
+      selfHeal: true
+      prune: true
+  

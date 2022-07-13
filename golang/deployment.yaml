@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: golang-deployment
+  labels:
+    app: golang
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: golang
+  template:
+    metadata:
+      labels:
+        app: golang
+    spec:
+      containers:
+      - name: golang
+        image: princeatoss/golanggraph:1.1
+        resources:
+          limits:
+            memory: "250Mi"
+            cpu: "250m"
+          requests:
+            memory: "150Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 8081
+        env:
+         - name: DATABASE_URL
+           valueFrom:
+            secretKeyRef:
+              key: test
+              name: db-secret-golang
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8081
+          initialDelaySeconds: 0
+          periodSeconds: 30
+          failureThreshold: 1
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8081
+          initialDelaySeconds: 0
+          periodSeconds: 30
